@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "demo": "pnpm --filter vssueplay.demo",
-    "docs:dev": "pnpm --filter vssueplay.docs",
+    "demo": "pnpm --filter @vssueplay/demos",
+    "docs:dev": "pnpm --filter @vssueplay/docs",
+    "comps": "pnpm --filter @vssueplay/comps",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

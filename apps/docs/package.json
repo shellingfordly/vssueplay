@@ -1,5 +1,5 @@
 {
-  "name": "vssueplay.docs",
+  "name": "@vssueplay/docs",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
