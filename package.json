@@ -1,0 +1,20 @@
+{
+  "name": "vssueplay",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "demo": "pnpm --filter vssueplay.demo",
+    "docs:dev": "pnpm --filter vssueplay.docs",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@antfu/eslint-config": "^2.14.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.2.2"
+  }
+}
