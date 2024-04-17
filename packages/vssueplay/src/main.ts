@@ -1,1 +1,1 @@
-export { default as MyButton } from "./MyButton/MyButton.vue";
+export { default as Vssueplay } from "./vssueplay/index.vue";

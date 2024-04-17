@@ -2,23 +2,31 @@
   "name": "@vssueplay/comps",
   "private": false,
   "version": "0.0.0",
+  "description": "A vue3-powered issue-based comment component",
   "type": "module",
   "module": "./dist/comps.js",
   "types": "./dist/main.d.ts",
   "files": [
     "dist"
   ],
+  "author": "shellingfordly <shellingfordly@qq.com>",
+  "license": "MIT",
   "scripts": {
     "dev": "vite build --watch",
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.4.21"
+    "vue": "^3.4.21",
+    "@vssueplay/utils": "workspace:^"
   },
   "devDependencies": {
+    "@iconify-json/line-md": "^1.1.37",
+    "@iconify-json/material-symbols": "^1.1.78",
+    "@iconify-json/mdi": "^1.1.66",
+    "@unocss/reset": "^0.59.3",
     "@vitejs/plugin-vue": "^5.0.4",
-    "typescript": "^5.2.2",
+    "unocss": "^0.59.3",
     "vite": "^5.2.0",
     "vite-plugin-dts": "^3.8.3",
     "vue-tsc": "^2.0.6"

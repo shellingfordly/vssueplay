@@ -1,0 +1,17 @@
+{
+  "name": "@vssueplay/utils",
+  "version": "0.0.0",
+  "description": "utils of vssueplay",
+  "main": "index.ts",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rimraf lib && tsc -p tsconfig.json"
+  },
+  "keywords": [],
+  "author": "shellingfordly <shellingfordly@qq.com>",
+  "license": "MIT"
+}
