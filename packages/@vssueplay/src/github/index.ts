@@ -67,7 +67,7 @@ export default class GithubIssue {
       if (response.data && response.data.error) {
         return Promise.reject(new Error(response.data.error_description));
       }
-      return response;
+      return response.data;
     }, error => {
       // 403 rate limit exceeded in OPTIONS request will cause a Network Error
       // here we always treat Network Error as 403 rate limit exceeded

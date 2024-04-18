@@ -1,4 +1,4 @@
-import { reactive, ref, computed, onMounted } from "vue"
+import { reactive, ref, onMounted } from "vue"
 import { GithubIssue, WebStorage, getQueryValue } from "@vssueplay/utils";
 import type { GithubCommentInfo, GithubCommentReactionType, GithubUserInfo, GithubIssueConfig } from "@vssueplay/utils";
 
@@ -14,10 +14,11 @@ export function useGithubIssue(config: GithubIssueConfig) {
   const pageInfo = reactive<Partial<any>>({});
   const commentTotalCount = ref(Infinity);
   const userInfo = ref<Partial<GithubUserInfo>>({});
-  const isAuthed = computed(() => _githubIssue.isAuthed);
+
   const quoteComment = ref<Partial<GithubCommentInfo>>({})
   const loading = ref(false)
   const { token } = storage.get("GITHUB_TOKEN")
+  const isAuthed = !!token;
 
   onMounted(async () => {
     if (token) {
@@ -59,7 +60,7 @@ export function useGithubIssue(config: GithubIssueConfig) {
   }
 
   async function initComments() {
-    if (!isAuthed.value) return;
+    if (!isAuthed) return;
 
     loading.value = true
 
@@ -71,7 +72,7 @@ export function useGithubIssue(config: GithubIssueConfig) {
   }
 
   async function updateComments() {
-    if (!isAuthed.value) return;
+    if (!isAuthed) return;
 
     loading.value = true
 
@@ -85,7 +86,7 @@ export function useGithubIssue(config: GithubIssueConfig) {
   }
 
   async function createComment(content: string, id: string) {
-    if (!isAuthed.value || !content) return;
+    if (!isAuthed || !content) return;
 
     let value = content
     if (quoteComment.value.id) {
@@ -108,7 +109,7 @@ export function useGithubIssue(config: GithubIssueConfig) {
     commentId: string,
     content: GithubCommentReactionType
   ) {
-    if (!isAuthed.value) return;
+    if (!isAuthed) return;
 
     _githubIssue.reactionComment(commentId, content);
   }
@@ -118,7 +119,7 @@ export function useGithubIssue(config: GithubIssueConfig) {
   }
 
   async function getUserInfo() {
-    if (!isAuthed.value) return;
+    if (!isAuthed) return;
 
     userInfo.value = (await _githubIssue.getUser()) || {};
 
