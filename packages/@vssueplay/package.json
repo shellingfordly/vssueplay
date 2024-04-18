@@ -16,7 +16,10 @@
   "license": "MIT",
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
+    "axios": "^1.6.8",
+    "axios-mock-adapter": "^1.22.0",
     "crypto-js": "^4.2.0",
+    "jsdom": "^24.0.0",
     "qs": "^6.12.1"
   }
 }

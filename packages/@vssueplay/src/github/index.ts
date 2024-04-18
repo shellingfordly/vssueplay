@@ -1,6 +1,6 @@
 import { formatUrl } from "../utils";
-import { createFetch } from "../fetch";
 import { GithubApiQuery } from "./query";
+import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
 
 interface GithubConfig {
   author: string;
@@ -11,13 +11,14 @@ interface GithubConfig {
 
 export default class GithubIssue {
   public name = "GithubIssue";
-  public version = 0;
+  public version = "v4";
   private issueNodeId = "";
   private author = "";
   private repo = "";
   private clientId = "";
   private clientSecret = "";
-  private token = "";
+  private accessToken = "";
+  private fetch: AxiosInstance;
 
   private api = {
     auth: "https://github.com/login/oauth/authorize",
@@ -31,22 +32,64 @@ export default class GithubIssue {
     this.repo = config.repo;
     this.clientId = config.clientId;
     this.clientSecret = config.clientSecret;
+
+    this.fetch = this.createFetch();
   }
 
   get isAuthed() {
-    return !!this.token;
-  }
-
-  get fetch() {
-    return createFetch();
+    return !!this.accessToken;
   }
 
   get apiQuery() {
     return GithubApiQuery;
   }
 
+  get http() {
+    return this.fetch
+  }
+
+  private createFetch() {
+    const instance = axios.create({
+      headers: {
+        Accept: 'application/vnd.github.v3+json',
+      },
+    });
+
+    instance.interceptors.request.use((config) => {
+      const token = this.accessToken
+      if (token) {
+        config.headers.Authorization = "token " + token;
+      }
+      return config
+    }, undefined);
+
+
+    instance.interceptors.response.use(response => {
+      if (response.data && response.data.error) {
+        return Promise.reject(new Error(response.data.error_description));
+      }
+      return response;
+    }, error => {
+      // 403 rate limit exceeded in OPTIONS request will cause a Network Error
+      // here we always treat Network Error as 403 rate limit exceeded
+      // @see https://github.com/axios/axios/issues/838
+      /* istanbul ignore next */
+      if (
+        typeof error.response === 'undefined' &&
+        error.message === 'Network Error'
+      ) {
+        error.response = {
+          status: 403,
+        };
+      }
+      return Promise.reject(error);
+    })
+
+    return instance;
+  }
+
   clear() {
-    this.token = "";
+    this.accessToken = "";
     this.issueNodeId = "";
     this.author = "";
     this.repo = "";
@@ -82,7 +125,7 @@ export default class GithubIssue {
     try {
       const url = this.api.proxy + this.api.token;
 
-      const data = await this.fetch.post(
+      const { data } = await this.fetch.post(
         url,
         {
           client_id: this.clientId,
@@ -97,6 +140,7 @@ export default class GithubIssue {
         }
       );
 
+      this.accessToken = data.access_token;
       return data.access_token;
     } catch (error) {
       console.error("[GithubIssue getAccessToken]: ", error);
@@ -174,7 +218,7 @@ export default class GithubIssue {
    * @see https://developer.github.com/v4/input_object/updateissuecommentinput/
    */
   async editorComment(commentId: string, content: string) {
-    const result = await this.fetch.post(this.api.graphql, {
+    const { data } = await this.fetch.post(this.api.graphql, {
       variables: {
         commentId,
         content,
@@ -182,20 +226,20 @@ export default class GithubIssue {
       query: this.apiQuery.editorCommentQuery(),
     });
 
-    if (result.errors && result.errors.length) {
-      return {
-        data: null,
-        error: {
-          message: result.errors[0].message,
-          type: result.errors[0].type,
-        },
-      };
-    } else {
-      return {
-        data: result.data.updateIssueComment.issueComment,
-        error: null,
-      };
-    }
+    // if (result.errors && result.errors.length) {
+    //   return {
+    //     data: null,
+    //     error: {
+    //       message: result.errors[0].message,
+    //       type: result.errors[0].type,
+    //     },
+    //   };
+    // } else {
+    //   return {
+    //     data: result.data.updateIssueComment.issueComment,
+    //     error: null,
+    //   };
+    // }
   }
 
   /**
@@ -204,27 +248,27 @@ export default class GithubIssue {
    * @see https://developer.github.com/v4/mutation/deleteissuecomment/
    */
   async deleteComment(commentId: string) {
-    const result = await this.fetch.post(this.api.graphql, {
+    const { data } = await this.fetch.post(this.api.graphql, {
       variables: {
         commentId,
       },
       query: this.apiQuery.deleteCommentQuery(),
     });
 
-    if (result.errors && result.errors.length) {
-      return {
-        data: null,
-        error: {
-          message: result.errors[0].message,
-          type: result.errors[0].type,
-        },
-      };
-    } else {
-      return {
-        data: result.data,
-        error: null,
-      };
-    }
+    // if (result.errors && result.errors.length) {
+    //   return {
+    //     data: null,
+    //     error: {
+    //       message: result.errors[0].message,
+    //       type: result.errors[0].type,
+    //     },
+    //   };
+    // } else {
+    //   return {
+    //     data: result.data,
+    //     error: null,
+    //   };
+    // }
   }
 
   /**

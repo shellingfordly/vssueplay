@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "test": "vitest"
+    "test": "vitest --sequence.setupFiles list --environment jsdom"
   },
   "keywords": [],
   "author": "shellingfordly <shellingfordly@qq.com>",
