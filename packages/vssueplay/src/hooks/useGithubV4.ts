@@ -8,9 +8,14 @@ const storage = new WebStorage({
   prefixKey: "VITE_"
 });
 
+
+const comments = ref<GithubV4CommentInfo[]>([]);
+const githubV4 = new GithubV4();
+
+
 export function useGithubV4() {
-  const githubV4 = new GithubV4();
-  const comments = ref<GithubV4CommentInfo[]>([]);
+  // const githubV4 = new GithubV4();
+  // const comments = ref<GithubV4CommentInfo[]>([]);
   const pageInfo = reactive<Partial<any>>({});
   const commentTotalCount = ref(Infinity);
   const userInfo = ref<Partial<GithubV4UserInfo>>({});
@@ -93,14 +98,12 @@ export function useGithubV4() {
     }
 
     const result = await githubV4.createComment(value, id);
-    // if (result.errors && result.errors.length > 0) {
-    //   const error = result.errors[0];
+    if (result.error) {
+      alert(result.error.message);
+      return false;
+    }
 
-    //   alert(error.message);
-    //   return false;
-    // }
-
-    // return true;
+    return true;
   }
 
   async function reactionComment(
@@ -110,10 +113,6 @@ export function useGithubV4() {
     if (!isAuthed) return;
 
     githubV4.reactionComment(commentId, content);
-  }
-
-  async function getReactionsComment() {
-    // _githubComment.getCommentReactions("")
   }
 
   async function getUserInfo() {
@@ -126,19 +125,21 @@ export function useGithubV4() {
 
   async function deleteComment(commentId: string) {
     const result = await githubV4.deleteComment(commentId);
-    // if (result.error) {
-    //   alert(result.error.message);
-    // }
-    // return result.data;
+
+    if (result.error) {
+      alert(result.error.message);
+    }
+    return result.data;
   }
 
   async function editorComment(commentId: string, content: string) {
     const result = await githubV4.editorComment(commentId, content);
-    // if (result.error) {
-    //   alert(result.error.message);
-    // }
 
-    // return result.data;
+    if (result.error) {
+      alert(result.error.message);
+    }
+
+    return result.data;
   }
 
   function onUpdateComment(comment: GithubV4CommentInfo) {
@@ -164,13 +165,12 @@ export function useGithubV4() {
     userInfo,
     isAuthed,
     loading,
+    getAuthorizeUrl: githubV4.getAuthorizeUrl,
     setGithubConfig,
     initComments,
-    getAuthorizeUrl: githubV4.getAuthorizeUrl,
     updateComments,
     createComment,
     reactionComment,
-    getReactionsComment,
     getUserInfo,
     deleteComment,
     editorComment,

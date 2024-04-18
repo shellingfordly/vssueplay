@@ -211,13 +211,29 @@ export default class GithubV4 {
   async createComment(content: string, id: string) {
     const issueNodeId = this.issueNodeId || id;
 
-    return this.fetch.post(this.api.graphql, {
+    const result: any = this.fetch.post(this.api.graphql, {
       variables: {
         issueNodeId,
         content,
       },
       query: this.apiQuery.createCommentQuery(),
     });
+
+
+    if (result.errors && result.errors.length) {
+      return {
+        data: null,
+        error: {
+          message: result.errors[0].message,
+          type: result.errors[0].type,
+        },
+      };
+    } else {
+      return {
+        data: result.data,
+        error: null,
+      };
+    }
   }
 
   /**
@@ -227,7 +243,7 @@ export default class GithubV4 {
    * @see https://developer.github.com/v4/input_object/updateissuecommentinput/
    */
   async editorComment(commentId: string, content: string) {
-    const { data } = await this.fetch.post(this.api.graphql, {
+    const result: any = await this.fetch.post(this.api.graphql, {
       variables: {
         commentId,
         content,
@@ -235,20 +251,20 @@ export default class GithubV4 {
       query: this.apiQuery.editorCommentQuery(),
     });
 
-    // if (result.errors && result.errors.length) {
-    //   return {
-    //     data: null,
-    //     error: {
-    //       message: result.errors[0].message,
-    //       type: result.errors[0].type,
-    //     },
-    //   };
-    // } else {
-    //   return {
-    //     data: result.data.updateIssueComment.issueComment,
-    //     error: null,
-    //   };
-    // }
+    if (result.errors && result.errors.length) {
+      return {
+        data: null,
+        error: {
+          message: result.errors[0].message,
+          type: result.errors[0].type,
+        },
+      };
+    } else {
+      return {
+        data: result.data.updateIssueComment.issueComment,
+        error: null,
+      };
+    }
   }
 
   /**
@@ -257,27 +273,27 @@ export default class GithubV4 {
    * @see https://developer.github.com/v4/mutation/deleteissuecomment/
    */
   async deleteComment(commentId: string) {
-    const { data } = await this.fetch.post(this.api.graphql, {
+    const result: any = await this.fetch.post(this.api.graphql, {
       variables: {
         commentId,
       },
       query: this.apiQuery.deleteCommentQuery(),
     });
 
-    // if (result.errors && result.errors.length) {
-    //   return {
-    //     data: null,
-    //     error: {
-    //       message: result.errors[0].message,
-    //       type: result.errors[0].type,
-    //     },
-    //   };
-    // } else {
-    //   return {
-    //     data: result.data,
-    //     error: null,
-    //   };
-    // }
+    if (result.errors && result.errors.length) {
+      return {
+        data: null,
+        error: {
+          message: result.errors[0].message,
+          type: result.errors[0].type,
+        },
+      };
+    } else {
+      return {
+        data: result.data,
+        error: null,
+      };
+    }
   }
 
   /**
