@@ -2,6 +2,7 @@
 import { defineProps, watchEffect } from "vue";
 import { useGithubV4 } from "./hooks/useGithubV4";
 import { type GithubV4Config } from "@vssueplay/utils";
+import CommentList from "./components/CommentList.vue";
 
 const props = defineProps<{ config: GithubV4Config }>();
 const { setGithubConfig, getAuthorizeUrl } = useGithubV4();
@@ -18,9 +19,13 @@ function login() {
 }
 </script>
 <template>
-  <div>Vssueplay</div>
-
   <div>
-    <button @click="login">loginAuthorize</button>
+
+
+    <div>Vssueplay</div>
+    <div>
+      <button @click="login"> login width github</button>
+    </div>
+    <CommentList />
   </div>
 </template>
