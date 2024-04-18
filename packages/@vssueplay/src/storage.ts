@@ -42,7 +42,7 @@ export class WebStorage {
     return {};
   }
 
-  set(key: string, value: string) {
+  set(key: string, value: Record<string, any>) {
     const storageValue = this.isEncrypt
       ? encryptByBase64(JSON.stringify(value))
       : JSON.stringify(value);
@@ -61,7 +61,7 @@ export class WebStorage {
 
 export function createStorage() {
   const storage = new WebStorage({
-    storage: sessionStorage,
+    storage: localStorage,
     prefixKey: "VITE_",
     isEncrypt: true,
   });

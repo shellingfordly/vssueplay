@@ -1,11 +1,15 @@
-import { reactive, ref, computed, watch } from "vue"
-import { GithubIssue } from "@vssueplay/utils";
+import { reactive, ref, computed, onMounted } from "vue"
+import { GithubIssue, WebStorage, getQueryValue } from "@vssueplay/utils";
 import type { GithubCommentInfo, GithubCommentReactionType, GithubUserInfo, GithubIssueConfig } from "@vssueplay/utils";
 
-export function useGithubIssue(config: GithubIssueConfig) {
-  // const _githubCode = useRouteQuery("code", "");
-  const _githubIssue = reactive(new GithubIssue(config));
+const storage = new WebStorage({
+  storage: localStorage,
+  isEncrypt: false,
+  prefixKey: "VITE_"
+});
 
+export function useGithubIssue(config: GithubIssueConfig) {
+  const _githubIssue = new GithubIssue(config);
   const comments = ref<GithubCommentInfo[]>([]);
   const pageInfo = reactive<Partial<any>>({});
   const commentTotalCount = ref(Infinity);
@@ -13,34 +17,33 @@ export function useGithubIssue(config: GithubIssueConfig) {
   const isAuthed = computed(() => _githubIssue.isAuthed);
   const quoteComment = ref<Partial<GithubCommentInfo>>({})
   const loading = ref(false)
+  const { token } = storage.get("GITHUB_TOKEN")
 
-  // watch(
-  //   _githubCode,
-  //   async (code) => {
-  //     if (code) {
-  //       await _githubIssue.getAccessToken(code);
-  //       window.location.href = "/"
-  //     }
-  //   },
-  //   { immediate: true }
-  // );
+  onMounted(async () => {
+    if (token) {
+      _githubIssue.setConfig({ accessToken: token });
 
-  watch(isAuthed, async () => {
-    if (isAuthed.value) {
-      await _githubIssue.getIssue(1);
-      getUserInfo();
-      initComments();
+      init()
+      return
     }
-  }, { immediate: true });
 
-  // login github authorize
-  function loginAuthorize() {
-    console.log("loginAuthorize")
-    return _githubIssue.loginAuthorize();
+    const code = getQueryValue("code");
+    if (code) {
+      const token = await _githubIssue.getAccessToken(code);
+      if (token) storage.set("GITHUB_TOKEN", { token });
+
+      init()
+    }
+  })
+
+  async function init() {
+    await _githubIssue.getIssue(1);
+    getUserInfo();
+    initComments();
   }
 
-  function getAccessToken(code: string) {
-    return _githubIssue.getAccessToken(code);
+  function getAuthorizeUrl() {
+    return _githubIssue.getAuthorizeUrl();
   }
 
   function sortComments(data: GithubCommentInfo[]) {
@@ -166,8 +169,7 @@ export function useGithubIssue(config: GithubIssueConfig) {
     createComment,
     reactionComment,
     getReactionsComment,
-    loginAuthorize,
-    getAccessToken,
+    getAuthorizeUrl,
     getUserInfo,
     deleteComment,
     editorComment,

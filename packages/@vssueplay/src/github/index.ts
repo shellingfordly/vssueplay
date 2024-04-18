@@ -8,6 +8,7 @@ export interface GithubIssueConfig {
   repo: string;
   clientId: string;
   clientSecret: string;
+  accessToken?: string;
 }
 
 export default class GithubIssue {
@@ -29,10 +30,7 @@ export default class GithubIssue {
   };
 
   constructor(config: GithubIssueConfig) {
-    this.author = config.author;
-    this.repo = config.repo;
-    this.clientId = config.clientId;
-    this.clientSecret = config.clientSecret;
+    this.setConfig(config);
 
     this.fetch = this.createFetch();
   }
@@ -56,15 +54,15 @@ export default class GithubIssue {
       },
     });
 
+    // set Authorization
     instance.interceptors.request.use((config) => {
-      const token = this.accessToken
-      if (token) {
-        config.headers.Authorization = "token " + token;
+      if (this.accessToken) {
+        config.headers.Authorization = "token " + this.accessToken;
       }
       return config
     }, undefined);
 
-
+    // handle error
     instance.interceptors.response.use(response => {
       if (response.data && response.data.error) {
         return Promise.reject(new Error(response.data.error_description));
@@ -89,6 +87,14 @@ export default class GithubIssue {
     return instance;
   }
 
+  setConfig(config: Partial<GithubIssueConfig>) {
+    if (config.author) this.author = config.author;
+    if (config.repo) this.repo = config.repo;
+    if (config.clientId) this.clientId = config.clientId;
+    if (config.clientSecret) this.clientSecret = config.clientSecret;
+    if (config.accessToken) this.accessToken = config.accessToken;
+  }
+
   clear() {
     this.accessToken = "";
     this.issueNodeId = "";
@@ -103,7 +109,7 @@ export default class GithubIssue {
    *
    * @see https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/#1-request-a-users-github-identity
    */
-  loginAuthorize() {
+  getAuthorizeUrl() {
     return formatUrl(this.api.auth, {
       client_id: this.clientId,
       redirect_uri: window.location.href,
@@ -164,10 +170,12 @@ export default class GithubIssue {
   }
 
   async getIssue(issueId: number) {
+    const owner = this.author;
+    const repo = this.repo;
     const { data } = await this.fetch.post(this.api.graphql, {
       query: this.apiQuery.getIssueQuery({
-        owner: this.author,
-        repo: this.repo,
+        owner,
+        repo,
         issueId,
       }),
     });

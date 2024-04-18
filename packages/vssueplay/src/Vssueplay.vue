@@ -1,22 +1,25 @@
 <script setup lang="ts">
+import { defineProps, watchEffect } from "vue";
 import { useGithubIssue } from "./store";
-import type { GithubIssueConfig } from "@vssueplay/utils";
+import { type GithubIssueConfig } from "@vssueplay/utils";
 
 const props = defineProps<{ config: GithubIssueConfig }>();
+let githubIssue: ReturnType<typeof useGithubIssue>
 
-const githubIssue = useGithubIssue(props.config);
+watchEffect(() => {
+  if (props.config)
+    githubIssue = useGithubIssue(props.config);
+})
 
-function loginAuthorize() {
-  const url = githubIssue.loginAuthorize();
-  console.log(url);
-
+function login() {
+  const url = githubIssue.getAuthorizeUrl();
   window.location.href = url;
 }
 </script>
 <template>
-  <div>Vssueplay - {{ githubIssue.name }}</div>
+  <div>Vssueplay</div>
 
   <div>
-    <button @click="loginAuthorize">loginAuthorize</button>
+    <button @click="login">loginAuthorize</button>
   </div>
 </template>
