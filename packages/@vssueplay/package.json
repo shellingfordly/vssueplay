@@ -13,5 +13,10 @@
   },
   "keywords": [],
   "author": "shellingfordly <shellingfordly@qq.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "crypto-js": "^4.2.0",
+    "qs": "^6.12.1"
+  }
 }
