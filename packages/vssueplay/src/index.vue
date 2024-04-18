@@ -4,15 +4,16 @@ import { useGithubV4 } from "./hooks/useGithubV4";
 import { type GithubV4Config } from "@vssueplay/utils";
 
 const props = defineProps<{ config: GithubV4Config }>();
-let githubIssue: ReturnType<typeof useGithubV4>
+const { setGithubConfig, getAuthorizeUrl } = useGithubV4();
 
 watchEffect(() => {
-  if (props.config)
-    githubIssue = useGithubV4(props.config);
+  if (props.config) {
+    setGithubConfig(props.config)
+  }
 })
 
 function login() {
-  const url = githubIssue.getAuthorizeUrl();
+  const url = getAuthorizeUrl();
   window.location.href = url;
 }
 </script>

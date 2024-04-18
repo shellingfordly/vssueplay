@@ -1,4 +1,4 @@
-import { reactive, ref, onMounted } from "vue"
+import { reactive, ref } from "vue"
 import { GithubV4, WebStorage, getQueryValue } from "@vssueplay/utils";
 import type { GithubV4CommentInfo, GithubV4CommentReactionType, GithubV4UserInfo, GithubV4Config } from "@vssueplay/utils";
 
@@ -8,8 +8,8 @@ const storage = new WebStorage({
   prefixKey: "VITE_"
 });
 
-export function useGithubV4(config: GithubV4Config) {
-  const _githubIssue = new GithubV4(config);
+export function useGithubV4() {
+  const githubV4 = new GithubV4();
   const comments = ref<GithubV4CommentInfo[]>([]);
   const pageInfo = reactive<Partial<any>>({});
   const commentTotalCount = ref(Infinity);
@@ -20,32 +20,30 @@ export function useGithubV4(config: GithubV4Config) {
   const { token } = storage.get("GITHUB_TOKEN")
   const isAuthed = !!token;
 
-  onMounted(async () => {
-    if (token) {
-      _githubIssue.setConfig({ accessToken: token });
 
+  async function setGithubConfig(config: GithubV4Config) {
+    githubV4.setConfig({ ...config, accessToken: token });
+
+    if (token) {
       init()
       return
     }
 
     const code = getQueryValue("code");
     if (code) {
-      const token = await _githubIssue.getAccessToken(code);
+      const token = await githubV4.getAccessToken(code);
       if (token) storage.set("GITHUB_TOKEN", { token });
 
       init()
     }
-  })
+  }
 
   async function init() {
-    await _githubIssue.getIssue(1);
+    await githubV4.getIssue(1);
     getUserInfo();
     initComments();
   }
 
-  function getAuthorizeUrl() {
-    return _githubIssue.getAuthorizeUrl();
-  }
 
   function sortComments(data: GithubV4CommentInfo[]) {
     return data.sort(
@@ -64,7 +62,7 @@ export function useGithubV4(config: GithubV4Config) {
 
     loading.value = true
 
-    const result = await _githubIssue.getComments({ sort: "last" });
+    const result = await githubV4.getComments({ sort: "last" });
     comments.value = sortComments(result.nodes);
 
     setPageInfo(result);
@@ -76,7 +74,7 @@ export function useGithubV4(config: GithubV4Config) {
 
     loading.value = true
 
-    const result = await _githubIssue.getComments(pageInfo);
+    const result = await githubV4.getComments(pageInfo);
     const newComments = sortComments(result.nodes);
     comments.value = [...comments.value, ...newComments];
 
@@ -94,7 +92,7 @@ export function useGithubV4(config: GithubV4Config) {
       value = quoteBody + "\n\n" + content;
     }
 
-    const result = await _githubIssue.createComment(value, id);
+    const result = await githubV4.createComment(value, id);
     // if (result.errors && result.errors.length > 0) {
     //   const error = result.errors[0];
 
@@ -111,7 +109,7 @@ export function useGithubV4(config: GithubV4Config) {
   ) {
     if (!isAuthed) return;
 
-    _githubIssue.reactionComment(commentId, content);
+    githubV4.reactionComment(commentId, content);
   }
 
   async function getReactionsComment() {
@@ -121,13 +119,13 @@ export function useGithubV4(config: GithubV4Config) {
   async function getUserInfo() {
     if (!isAuthed) return;
 
-    userInfo.value = (await _githubIssue.getUser()) || {};
+    userInfo.value = (await githubV4.getUser()) || {};
 
     return userInfo.value;
   }
 
   async function deleteComment(commentId: string) {
-    const result = await _githubIssue.deleteComment(commentId);
+    const result = await githubV4.deleteComment(commentId);
     // if (result.error) {
     //   alert(result.error.message);
     // }
@@ -135,7 +133,7 @@ export function useGithubV4(config: GithubV4Config) {
   }
 
   async function editorComment(commentId: string, content: string) {
-    const result = await _githubIssue.editorComment(commentId, content);
+    const result = await githubV4.editorComment(commentId, content);
     // if (result.error) {
     //   alert(result.error.message);
     // }
@@ -155,7 +153,8 @@ export function useGithubV4(config: GithubV4Config) {
   }
 
   function logout() {
-    _githubIssue.clear();
+    storage.clear();
+    githubV4.clear();
     window.location.reload();
   }
 
@@ -165,12 +164,13 @@ export function useGithubV4(config: GithubV4Config) {
     userInfo,
     isAuthed,
     loading,
+    setGithubConfig,
     initComments,
+    getAuthorizeUrl: githubV4.getAuthorizeUrl,
     updateComments,
     createComment,
     reactionComment,
     getReactionsComment,
-    getAuthorizeUrl,
     getUserInfo,
     deleteComment,
     editorComment,

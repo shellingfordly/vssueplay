@@ -29,7 +29,7 @@ export default class GithubV4 {
     proxy: "https://cors-anywhere.azm.workers.dev/",
   };
 
-  constructor(config: GithubV4Config) {
+  constructor(config?: GithubV4Config) {
     this.setConfig(config);
 
     this.fetch = this.createFetch();
@@ -87,7 +87,7 @@ export default class GithubV4 {
     return instance;
   }
 
-  setConfig(config: Partial<GithubV4Config>) {
+  setConfig(config: Partial<GithubV4Config> = {}) {
     if (config.author) this.author = config.author;
     if (config.repo) this.repo = config.repo;
     if (config.clientId) this.clientId = config.clientId;
