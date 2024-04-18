@@ -1,8 +1,9 @@
 import { formatUrl } from "../utils";
 import { GithubApiQuery } from "./query";
 import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
+import { GithubCommentReactionType, GithubPageInfo, GithubResponse, GithubUserInfo } from "./type";
 
-interface GithubConfig {
+export interface GithubIssueConfig {
   author: string;
   repo: string;
   clientId: string;
@@ -27,7 +28,7 @@ export default class GithubIssue {
     proxy: "https://cors-anywhere.azm.workers.dev/",
   };
 
-  constructor(config: GithubConfig) {
+  constructor(config: GithubIssueConfig) {
     this.author = config.author;
     this.repo = config.repo;
     this.clientId = config.clientId;
@@ -102,7 +103,7 @@ export default class GithubIssue {
    *
    * @see https://developer.github.com/apps/building-oauth-apps/authorizing-oauth-apps/#1-request-a-users-github-identity
    */
-  async loginAuthorize() {
+  loginAuthorize() {
     return formatUrl(this.api.auth, {
       client_id: this.clientId,
       redirect_uri: window.location.href,

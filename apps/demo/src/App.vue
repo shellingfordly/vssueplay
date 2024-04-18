@@ -1,7 +1,12 @@
 <script setup lang="ts">
-import { Vssueplay } from "@vssueplay/comps";
+const config = {
+  clientId: import.meta.env.VITE_CLIENT_ID,
+  clientSecret: import.meta.env.VITE_CLIENT_SECRET,
+  githubAuthor: import.meta.env.VITE_GITHUB_AUTHOR,
+  githubRepo: import.meta.env.VITE_GITHUB_REPO,
+};
 </script>
 
 <template>
-  <Vssueplay />
+  <Vssueplay :config="config" />
 </template>

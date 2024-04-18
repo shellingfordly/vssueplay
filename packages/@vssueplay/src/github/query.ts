@@ -1,3 +1,5 @@
+import { GithubPageInfo } from "./type";
+
 function getIssueQuery({
   owner,
   repo,

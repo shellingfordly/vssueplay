@@ -2,4 +2,10 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+import Vssueplay from "@vssueplay/comps";
+
+const app = createApp(App)
+
+
+app.use(Vssueplay);
+app.mount('#app')
