@@ -1,17 +1,17 @@
-export interface GithubPageInfo {
+export interface GithubV4PageInfo {
   endCursor: string;
   startCursor: string;
   sort: "last" | "first";
 }
 
-export interface GithubUserInfo {
+export interface GithubV4UserInfo {
   url: string; // user id
   login: string; // user name
   email: string; // user email
   avatarUrl: string; // user avatar
 }
 
-export type GithubCommentReactionType =
+export type GithubV4CommentReactionType =
   | "THUMBS_UP"
   | "THUMBS_DOWN"
   | "HEART"
@@ -21,23 +21,23 @@ export type GithubCommentReactionType =
   | "CONFUSED"
   | "ROCKET";
 
-export interface GithubCommentReactionGroup {
-  content: GithubCommentReactionType;
+export interface GithubV4CommentReactionGroup {
+  content: GithubV4CommentReactionType;
   users: { totalCount: number };
 }
 
-export interface GithubCommentInfo {
+export interface GithubV4CommentInfo {
   body: string; // comment content
   bodyHTML: string; // create time
   createdAt: string; // comment url
   id: string;
   url: string;
-  author: GithubUserInfo;
-  reactionGroups: GithubCommentReactionGroup[];
+  author: GithubV4UserInfo;
+  reactionGroups: GithubV4CommentReactionGroup[];
 }
 
-export interface GithubResponse {
-  nodes: GithubCommentInfo[];
-  pageInfo: GithubPageInfo;
+export interface GithubV4Response {
+  nodes: GithubV4CommentInfo[];
+  pageInfo: GithubV4PageInfo;
   totalCount: number;
 }

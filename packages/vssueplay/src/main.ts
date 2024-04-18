@@ -1,4 +1,4 @@
-import VssueplayComponent from "./Vssueplay.vue";
+import VssueplayComponent from "./index.vue";
 import { type App } from "vue";
 
 const VssueplayPlugin = {

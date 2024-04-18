@@ -1,6 +1,6 @@
 import { reactive, ref, onMounted } from "vue"
-import { GithubIssue, WebStorage, getQueryValue } from "@vssueplay/utils";
-import type { GithubCommentInfo, GithubCommentReactionType, GithubUserInfo, GithubIssueConfig } from "@vssueplay/utils";
+import { GithubV4, WebStorage, getQueryValue } from "@vssueplay/utils";
+import type { GithubV4CommentInfo, GithubV4CommentReactionType, GithubV4UserInfo, GithubV4Config } from "@vssueplay/utils";
 
 const storage = new WebStorage({
   storage: localStorage,
@@ -8,14 +8,14 @@ const storage = new WebStorage({
   prefixKey: "VITE_"
 });
 
-export function useGithubIssue(config: GithubIssueConfig) {
-  const _githubIssue = new GithubIssue(config);
-  const comments = ref<GithubCommentInfo[]>([]);
+export function useGithubV4(config: GithubV4Config) {
+  const _githubIssue = new GithubV4(config);
+  const comments = ref<GithubV4CommentInfo[]>([]);
   const pageInfo = reactive<Partial<any>>({});
   const commentTotalCount = ref(Infinity);
-  const userInfo = ref<Partial<GithubUserInfo>>({});
+  const userInfo = ref<Partial<GithubV4UserInfo>>({});
 
-  const quoteComment = ref<Partial<GithubCommentInfo>>({})
+  const quoteComment = ref<Partial<GithubV4CommentInfo>>({})
   const loading = ref(false)
   const { token } = storage.get("GITHUB_TOKEN")
   const isAuthed = !!token;
@@ -47,7 +47,7 @@ export function useGithubIssue(config: GithubIssueConfig) {
     return _githubIssue.getAuthorizeUrl();
   }
 
-  function sortComments(data: GithubCommentInfo[]) {
+  function sortComments(data: GithubV4CommentInfo[]) {
     return data.sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
@@ -107,7 +107,7 @@ export function useGithubIssue(config: GithubIssueConfig) {
 
   async function reactionComment(
     commentId: string,
-    content: GithubCommentReactionType
+    content: GithubV4CommentReactionType
   ) {
     if (!isAuthed) return;
 
@@ -143,14 +143,14 @@ export function useGithubIssue(config: GithubIssueConfig) {
     // return result.data;
   }
 
-  function onUpdateComment(comment: GithubCommentInfo) {
+  function onUpdateComment(comment: GithubV4CommentInfo) {
     const index = comments.value.findIndex((item) => item.id == comment.id);
     if (index !== -1) {
       comments.value[index] = comment;
     }
   }
 
-  function onQuoteComment(comment: GithubCommentInfo) {
+  function onQuoteComment(comment: GithubV4CommentInfo) {
     quoteComment.value = comment
   }
 

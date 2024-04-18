@@ -1,9 +1,9 @@
 import { formatUrl } from "../utils";
 import { GithubApiQuery } from "./query";
-import axios, { type AxiosInstance, type AxiosRequestConfig } from "axios";
-import { GithubCommentReactionType, GithubPageInfo, GithubResponse, GithubUserInfo } from "./type";
+import axios, { type AxiosInstance } from "axios";
+import { GithubV4CommentReactionType, GithubV4PageInfo, GithubV4Response, GithubV4UserInfo } from "./type";
 
-export interface GithubIssueConfig {
+export interface GithubV4Config {
   author: string;
   repo: string;
   clientId: string;
@@ -11,7 +11,7 @@ export interface GithubIssueConfig {
   accessToken?: string;
 }
 
-export default class GithubIssue {
+export default class GithubV4 {
   public name = "GithubIssue";
   public version = "v4";
   private issueNodeId = "";
@@ -29,7 +29,7 @@ export default class GithubIssue {
     proxy: "https://cors-anywhere.azm.workers.dev/",
   };
 
-  constructor(config: GithubIssueConfig) {
+  constructor(config: GithubV4Config) {
     this.setConfig(config);
 
     this.fetch = this.createFetch();
@@ -87,7 +87,7 @@ export default class GithubIssue {
     return instance;
   }
 
-  setConfig(config: Partial<GithubIssueConfig>) {
+  setConfig(config: Partial<GithubV4Config>) {
     if (config.author) this.author = config.author;
     if (config.repo) this.repo = config.repo;
     if (config.clientId) this.clientId = config.clientId;
@@ -166,7 +166,7 @@ export default class GithubIssue {
       query: this.apiQuery.getUserQuery(),
     });
 
-    return data.viewer as GithubUserInfo;
+    return data.viewer as GithubV4UserInfo;
   }
 
   async getIssue(issueId: number) {
@@ -188,7 +188,7 @@ export default class GithubIssue {
    *
    * @see https://developer.github.com/v4/object/issuecommentconnection/
    */
-  async getComments(pageInfo: Partial<GithubPageInfo>) {
+  async getComments(pageInfo: Partial<GithubV4PageInfo>) {
     const { data } = await this.fetch.post(this.api.graphql, {
       variables: {
         owner: this.author,
@@ -199,7 +199,7 @@ export default class GithubIssue {
       query: this.apiQuery.getCommentsQuery(pageInfo),
     });
 
-    return data.repository.issue.comments as GithubResponse;
+    return data.repository.issue.comments as GithubV4Response;
   }
 
   /**
@@ -283,7 +283,7 @@ export default class GithubIssue {
   /**
    * reaction: ❤️ 👍 👎
    */
-  async reactionComment(commentId: string, content: GithubCommentReactionType) {
+  async reactionComment(commentId: string, content: GithubV4CommentReactionType) {
     return this.fetch.post(this.api.graphql, {
       variables: {
         commentId,

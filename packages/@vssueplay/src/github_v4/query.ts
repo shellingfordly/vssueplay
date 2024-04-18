@@ -1,4 +1,4 @@
-import { GithubPageInfo } from "./type";
+import { GithubV4PageInfo } from "./type";
 
 function getIssueQuery({
   owner,
@@ -27,7 +27,7 @@ function getCommentsQuery({
   endCursor = "",
   startCursor = "",
   sort = "last",
-}: Partial<GithubPageInfo>) {
+}: Partial<GithubV4PageInfo>) {
   let offset = "";
 
   if (sort === "first") {

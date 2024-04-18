@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { defineProps, watchEffect } from "vue";
-import { useGithubIssue } from "./store";
-import { type GithubIssueConfig } from "@vssueplay/utils";
+import { useGithubV4 } from "./hooks/useGithubV4";
+import { type GithubV4Config } from "@vssueplay/utils";
 
-const props = defineProps<{ config: GithubIssueConfig }>();
-let githubIssue: ReturnType<typeof useGithubIssue>
+const props = defineProps<{ config: GithubV4Config }>();
+let githubIssue: ReturnType<typeof useGithubV4>
 
 watchEffect(() => {
   if (props.config)
-    githubIssue = useGithubIssue(props.config);
+    githubIssue = useGithubV4(props.config);
 })
 
 function login() {
