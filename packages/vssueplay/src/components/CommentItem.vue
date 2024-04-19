@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import CommentAction from "./CommentAction.vue";
 import CommentEditor from "./CommentEditor.vue";
+import CommentReaction from "./CommentReaction.vue";
 import { GithubV4CommentInfo } from "@vssueplay/utils";
 import { ref } from "vue";
 
@@ -14,8 +15,12 @@ function onGoGithubUserPage() {
 
 <template>
   <div class="flex mb-5">
-    <img class="cursor-pointer mr-5 w-10 h-10 rounded-full" :src="comment.author.avatarUrl" :alt="comment.author.login"
-      @click="onGoGithubUserPage" />
+    <img
+      class="cursor-pointer mr-5 w-10 h-10 rounded-full"
+      :src="comment.author.avatarUrl"
+      :alt="comment.author.login"
+      @click="onGoGithubUserPage"
+    />
 
     <div class="comment border-default">
       <div class="flex items-center justify-between p-2 border-b b-gray">
@@ -23,16 +28,30 @@ function onGoGithubUserPage() {
           <a class="a-blue mr-2" :href="comment.author.url" target="_blank">
             {{ comment.author.login }}
           </a>
-          <span class="text-xs text-gray-400"> commented on {{ new Date(comment.createdAt).toDateString() }} </span>
+          <span class="text-xs text-gray-400">
+            commented on {{ new Date(comment.createdAt).toDateString() }}
+          </span>
         </div>
         <CommentAction :comment="comment" @editor="isEditMode = true" />
       </div>
       <div class="p-3">
-        <div v-if="!isEditMode" class="markdown-body" v-html="comment.bodyHTML"></div>
-        <CommentEditor v-if="isEditMode" :comment-id="comment.id" :comment-body="comment.body"
-          @update="isEditMode = false" @cancel="isEditMode = false" />
+        <div
+          v-if="!isEditMode"
+          class="markdown-body"
+          v-html="comment.bodyHTML"
+        ></div>
+        <CommentEditor
+          v-if="isEditMode"
+          :comment-id="comment.id"
+          :comment-body="comment.body"
+          @update="isEditMode = false"
+          @cancel="isEditMode = false"
+        />
       </div>
-      <!-- <CommentReaction :commentId="comment.id" :reactionGroups="comment.reactionGroups" /> -->
+      <CommentReaction
+        :commentId="comment.id"
+        :reactionGroups="comment.reactionGroups"
+      />
     </div>
   </div>
 </template>
