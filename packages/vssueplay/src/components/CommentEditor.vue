@@ -67,8 +67,10 @@ async function updateComment() {
 async function onEditComment() {
   createLoading.value = true;
 
-  if (isUpdateComment.value) updateComment();
-  else onCreateComment()
+  if (isUpdateComment.value) await updateComment();
+  else await onCreateComment()
+
+  initComments()
 
   createLoading.value = false;
 }
