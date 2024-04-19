@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CommentAction from "./CommentAction.vue";
+import CommentEditor from "./CommentEditor.vue";
 import { GithubV4CommentInfo } from "@vssueplay/utils";
 import { ref } from "vue";
 
@@ -26,10 +27,10 @@ function onGoGithubUserPage() {
         </div>
         <CommentAction :comment="comment" @editor="isEditMode = true" />
       </div>
-      <div class="p-4">
+      <div class="p-3">
         <div v-if="!isEditMode" class="markdown-body" v-html="comment.bodyHTML"></div>
-        <!-- <CommentEditor v-if="isEditMode" :comment-id="comment.id" :comment-body="comment.body"
-          @update="isEditMode = false" @cancel="isEditMode = false" /> -->
+        <CommentEditor v-if="isEditMode" :comment-id="comment.id" :comment-body="comment.body"
+          @update="isEditMode = false" @cancel="isEditMode = false" />
       </div>
       <!-- <CommentReaction :commentId="comment.id" :reactionGroups="comment.reactionGroups" /> -->
     </div>

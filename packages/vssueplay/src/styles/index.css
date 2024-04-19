@@ -20,8 +20,9 @@ html.dark {
 }
 
 @layer components {
-  .btn-primary {
-    @apply py-2 px-5 bg-violet-500 text-white font-semibold rounded-full shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75;
+
+  .btn {
+    @apply px-4 py-1 rounded inline-block bg-stone-500 hover:bg-stone-400 dark:bg-stone-800 hover:dark:bg-stone-700 text-white cursor-pointer !outline-none disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50;
   }
   
   .border-default {
