@@ -42,7 +42,7 @@ html.dark {
   }
 
   .hover-bg-gray {
-    @apply hover:bg-gray-100 dark:hover:bg-gray-600;
+    @apply cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600;
   }
   
 }

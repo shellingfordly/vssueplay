@@ -12,17 +12,15 @@ const storage = new WebStorage({
 const comments = ref<GithubV4CommentInfo[]>([]);
 const githubV4 = new GithubV4();
 const githubConfig = ref<Partial<GithubV4Config>>({})
-
+const userInfo = ref<Partial<GithubV4UserInfo>>({});
+const pageInfo = reactive<Partial<any>>({});
+const commentTotalCount = ref(Infinity);
+const quoteComment = ref<Partial<GithubV4CommentInfo>>({})
+const loading = ref(false)
 
 export function useGithubV4() {
   // const githubV4 = new GithubV4();
   // const comments = ref<GithubV4CommentInfo[]>([]);
-  const pageInfo = reactive<Partial<any>>({});
-  const commentTotalCount = ref(Infinity);
-  const userInfo = ref<Partial<GithubV4UserInfo>>({});
-
-  const quoteComment = ref<Partial<GithubV4CommentInfo>>({})
-  const loading = ref(false)
   const { token } = storage.get("GITHUB_TOKEN")
   const isAuthed = !!token;
 

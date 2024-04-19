@@ -74,40 +74,42 @@ async function onEditComment() {
 }
 </script>
 <template>
-  <div
-    class="flex flex-col w-full box-border p-2 border-default resize-none"
-    :class="isFocus && 'border-2 border-blue-200 dark:b-blue-800'"
-    @click="onFocus"
-  >
+  <div class="w-full">
     <div
-      v-if="quoteComment.id"
-      class="markdown-body mb-2 bg-gray-100 p-2 rounded"
-      v-html="quoteComment.bodyHTML"
-    />
-    <textarea
-      ref="editorRef"
-      v-model="content"
-      class="box-border w-full min-h-20 resize-none border-0 outline-0"
-      @focus="isFocus = true"
-    />
-  </div>
-  <div class="flex items-center justify-end p-2 space-x-2">
-    <button
-      v-if="isUpdateComment"
-      class="btn bg-red-300 dark:bg-red-800 hover:bg-red-200 hover:dark:bg-red-900"
-      @click="$emit('cancel')"
+      class="flex flex-col w-full box-border p-2 border-default resize-none"
+      :class="isFocus && 'border-2 border-blue-200 dark:b-blue-800'"
+      @click="onFocus"
     >
-      Cancel
-    </button>
-    <button
-      class="btn"
-      :class="[btnDisabled && 'cursor-not-allowed!']"
-      :disabled="btnDisabled"
-      @click="onEditComment"
-      title="post comment"
-    >
-      <span v-if="createLoading" i-line-md:loading-alt-loop />
-      <span>{{ isUpdateComment ? "Update Comment" : "Comment" }}</span>
-    </button>
+      <div
+        v-if="quoteComment.id"
+        class="markdown-body mb-2 bg-gray-100 p-2 rounded"
+        v-html="quoteComment.bodyHTML"
+      />
+      <textarea
+        ref="editorRef"
+        v-model="content"
+        class="box-border w-full min-h-20 resize-none border-0 outline-0"
+        @focus="isFocus = true"
+      />
+    </div>
+    <div class="flex items-center justify-end p-2 space-x-2">
+      <button
+        v-if="isUpdateComment"
+        class="btn bg-red-300 dark:bg-red-800 hover:bg-red-200 hover:dark:bg-red-900"
+        @click="$emit('cancel')"
+      >
+        Cancel
+      </button>
+      <button
+        class="btn"
+        :class="[btnDisabled && 'cursor-not-allowed!']"
+        :disabled="btnDisabled"
+        @click="onEditComment"
+        title="post comment"
+      >
+        <span v-if="createLoading" i-line-md:loading-alt-loop />
+        <span>{{ isUpdateComment ? "Update Comment" : "Comment" }}</span>
+      </button>
+    </div>
   </div>
 </template>
