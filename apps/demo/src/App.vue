@@ -8,5 +8,7 @@ const config = {
 </script>
 
 <template>
-  <Vssueplay :config="config" />
+  <div style="width: 800px; margin: auto; padding: 50px">
+    <Vssueplay :config="config" />
+  </div>
 </template>

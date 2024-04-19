@@ -1,12 +1,9 @@
-/* @config "./tailwind.admin.config.js"; */
-
-
+@import "./markdown.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind utilities;
-
 
 html,
 body,
@@ -22,12 +19,21 @@ html.dark {
   color-scheme: dark;
 }
 
-
-
-
 @layer components {
+  .btn-primary {
+    @apply py-2 px-5 bg-violet-500 text-white font-semibold rounded-full shadow-md hover:bg-violet-700 focus:outline-none focus:ring focus:ring-violet-400 focus:ring-opacity-75;
+  }
+  
   .border-default {
     @apply border rounded border-gray-200 dark:border-gray-700;
+  }
+
+  .b-gray {
+    @apply border-gray-200 dark:border-gray-700;
+  }
+
+  .a-blue {
+    @apply cursor-pointer hover:underline hover:text-blue-400 hover:dark:text-blue-600
   }
   
 }

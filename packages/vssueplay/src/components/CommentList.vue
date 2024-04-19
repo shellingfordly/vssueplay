@@ -5,7 +5,5 @@ import { useGithubV4 } from "../hooks/useGithubV4";
 const { comments } = useGithubV4();
 </script>
 <template>
-  <template v-for="comment in comments" :key="comment.id">
-    <CommentItem :comment="comment" />
-  </template>
+  <CommentItem :comment="comment" v-for="comment in comments" :key="comment.id" />
 </template>
