@@ -1,0 +1,33 @@
+/* @config "./tailwind.admin.config.js"; */
+
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind utilities;
+
+
+html,
+body,
+#app {
+  width:100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html.dark {
+  background: #121212;
+  color-scheme: dark;
+}
+
+
+
+
+@layer components {
+  .border-default {
+    @apply border rounded border-gray-200 dark:border-gray-700;
+  }
+  
+}

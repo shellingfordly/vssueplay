@@ -1,5 +1,6 @@
 import VssueplayComponent from "./index.vue";
 import { type App } from "vue";
+import "./styles/index.css"
 
 const VssueplayPlugin = {
   get version() {

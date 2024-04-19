@@ -17,8 +17,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "vue": "^3.4.21",
-    "@vssueplay/utils": "workspace:^"
+    "@vssueplay/utils": "workspace:^",
+    "vue": "^3.4.21"
   },
   "devDependencies": {
     "@iconify-json/line-md": "^1.1.37",
@@ -26,6 +26,10 @@
     "@iconify-json/mdi": "^1.1.66",
     "@unocss/reset": "^0.59.3",
     "@vitejs/plugin-vue": "^5.0.4",
+    "autoprefixer": "^10.4.19",
+    "less": "^4.2.0",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.3",
     "unocss": "^0.59.3",
     "vite": "^5.2.0",
     "vite-plugin-dts": "^3.8.3",
