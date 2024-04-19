@@ -63,6 +63,9 @@ importers:
 
   apps/docs:
     devDependencies:
+      '@vssueplay/comps':
+        specifier: workspace:^
+        version: link:../../packages/vssueplay
       vitepress:
         specifier: ^1.1.0
         version: 1.1.0(@algolia/client-search@4.23.3)(@types/node@20.12.7)(search-insights@2.13.0)(typescript@5.4.5)
