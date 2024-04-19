@@ -109,6 +109,12 @@ importers:
       '@iconify-json/mdi':
         specifier: ^1.1.66
         version: 1.1.66
+      '@iconify-json/mdi-light':
+        specifier: ^1.1.10
+        version: 1.1.10
+      '@iconify/tailwind':
+        specifier: ^0.1.4
+        version: 0.1.4
       '@unocss/reset':
         specifier: ^0.59.3
         version: 0.59.3
@@ -1089,8 +1095,20 @@ packages:
       '@iconify/types': 2.0.0
     dev: true
 
+  /@iconify-json/mdi-light@1.1.10:
+    resolution: {integrity: sha512-zs1/O6JV/IK0sTMgrc8EgeVvm9QzY4WgsIWc2c4IMgj3k9q79TXNDI6E6oDLVN3xU4B5THiM3Us3L7+dMUZqtg==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
   /@iconify-json/mdi@1.1.66:
     resolution: {integrity: sha512-7KPF2RVUUWav/hXCM8Ti/smqu3cmgePJpiX9CSkldiL+80+eBRBeKlc4vPOc9jhAItlqIU1vKsbKoPP0JIfgbg==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
+  /@iconify/tailwind@0.1.4:
+    resolution: {integrity: sha512-U7RzcU2fkwOfMDsGQ3mtpLIaApSnqb+vgcJJknPPbg8/NF5s7tI1o5otEMfcpnLGk4PbYB8bxmKTz7IJVUlU2Q==}
     dependencies:
       '@iconify/types': 2.0.0
     dev: true
