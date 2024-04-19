@@ -11,6 +11,7 @@ const storage = new WebStorage({
 
 const comments = ref<GithubV4CommentInfo[]>([]);
 const githubV4 = new GithubV4();
+const githubConfig = ref<Partial<GithubV4Config>>({})
 
 
 export function useGithubV4() {
@@ -27,6 +28,7 @@ export function useGithubV4() {
 
 
   async function setGithubConfig(config: GithubV4Config) {
+    githubConfig.value = config;
     githubV4.setConfig({ ...config, accessToken: token });
 
     if (token) {
@@ -165,6 +167,7 @@ export function useGithubV4() {
     userInfo,
     isAuthed,
     loading,
+    githubConfig,
     getAuthorizeUrl: githubV4.getAuthorizeUrl,
     setGithubConfig,
     initComments,

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import CommentAction from "./CommentAction.vue";
 import { GithubV4CommentInfo } from "@vssueplay/utils";
 import { ref } from "vue";
 
@@ -21,9 +22,9 @@ function onGoGithubUserPage() {
           <a class="a-blue mr-2" :href="comment.author.url" target="_blank">
             {{ comment.author.login }}
           </a>
-          <span class="font-size-3 c-gray"> commented on Jan 13, 2019 </span>
+          <span class="text-xs text-gray-400"> commented on {{ new Date(comment.createdAt).toDateString() }} </span>
         </div>
-        <!-- <CommentAction :comment="comment" @editor="isEditMode = true" /> -->
+        <CommentAction :comment="comment" @editor="isEditMode = true" />
       </div>
       <div class="p-4">
         <div v-if="!isEditMode" class="markdown-body" v-html="comment.bodyHTML"></div>

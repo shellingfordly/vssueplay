@@ -35,5 +35,13 @@ html.dark {
   .a-blue {
     @apply cursor-pointer hover:underline hover:text-blue-400 hover:dark:text-blue-600
   }
+
+  .hover-color-blue {
+    @apply cursor-pointer hover:text-blue-400 hover:dark:text-blue-600;
+  }
+
+  .hover-bg-gray {
+    @apply hover:bg-gray-100 dark:hover:bg-gray-600;
+  }
   
 }
