@@ -132,7 +132,7 @@ export default class GithubV4 {
     try {
       const url = this.api.proxy + this.api.token;
 
-      const { data } = await this.fetch.post(
+      const result: any = await this.fetch.post(
         url,
         {
           client_id: this.clientId,
@@ -147,8 +147,8 @@ export default class GithubV4 {
         }
       );
 
-      this.accessToken = data.access_token;
-      return data.access_token;
+      this.accessToken = result.access_token;
+      return result.access_token as string;
     } catch (error) {
       console.error("[GithubIssue getAccessToken]: ", error);
     }

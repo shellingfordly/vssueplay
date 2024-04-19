@@ -23,7 +23,7 @@ export function useGithubV4() {
   // const comments = ref<GithubV4CommentInfo[]>([]);
   const { token } = storage.get("GITHUB_TOKEN")
   const isAuthed = !!token;
-
+  const getAuthorizeUrl = githubV4.getAuthorizeUrl.bind(githubV4)
 
   async function setGithubConfig(config: GithubV4Config) {
     githubConfig.value = config;
@@ -166,7 +166,7 @@ export function useGithubV4() {
     isAuthed,
     loading,
     githubConfig,
-    getAuthorizeUrl: githubV4.getAuthorizeUrl,
+    getAuthorizeUrl,
     setGithubConfig,
     initComments,
     updateComments,
