@@ -1,0 +1,37 @@
+{
+  "name": "@vssueplay/vuepress-plugin-vssueplay",
+  "version": "0.0.1",
+  "description": "This is vuepress plugin of vssueplay",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "homepage": "https://github.com/shellingfordly/vssueplay#readme",
+  "bugs": {
+    "url": "https://github.com/shellingfordly/vssueplay/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shellingfordly/vssueplay.git"
+  },
+  "author": "shellingfordly <shellingfordly@qq.com>",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "build": "rimraf lib && tsc "
+  },
+  "keywords": [
+    "vuepress-plugin"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "directories": {
+    "lib": "lib"
+  },
+  "devDependencies": {
+    "vssueplay_test": "^0.0.3",
+    "vuepress": "2.0.0-rc.9"
+  }
+}
