@@ -1,6 +1,6 @@
 {
   "name": "vssueplay",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A Vue3-powered Issue-based Comment Plugin",
   "main": "index.js",
   "scripts": {
