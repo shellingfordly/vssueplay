@@ -22,7 +22,7 @@ describe("github", () => {
   });
 
   test("loginAuthorize", async () => {
-    const githubAuthUrl = await githubIssue.loginAuthorize();
+    const githubAuthUrl = await githubIssue.getAuthorizeUrl();
 
     const url = "https://github.com/login/oauth/authorize";
     const redirect_uri = encodeURIComponent("http://localhost:3000/");

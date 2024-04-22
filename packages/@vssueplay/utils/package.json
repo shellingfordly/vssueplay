@@ -2,24 +2,38 @@
   "name": "@vssueplay/utils",
   "version": "0.0.1",
   "description": "This is utils of vssueplay",
-  "main": "index.ts",
+  "main": "./src/index.ts",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
+  "homepage": "https://github.com/shellingfordly/vssueplay#readme",
+  "bugs": {
+    "url": "https://github.com/shellingfordly/vssueplay/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shellingfordly/vssueplay.git"
+  },
   "files": [
     "lib"
   ],
   "scripts": {
-    "build": "rimraf lib && tsc -p tsconfig.json"
+    "build": "rimraf lib && tsc"
   },
   "keywords": [],
   "author": "shellingfordly <shellingfordly@qq.com>",
   "license": "MIT",
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
-    "axios": "^1.6.8",
     "axios-mock-adapter": "^1.22.0",
     "crypto-js": "^4.2.0",
+    "axios": "^1.6.8",
     "jsdom": "^24.0.0",
     "qs": "^6.12.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "directories": {
+    "lib": "lib"
   }
 }
