@@ -1,7 +1,7 @@
 {
   "name": "@vssueplay/utils",
   "version": "0.0.0",
-  "description": "utils of vssueplay",
+  "description": "This is utils of vssueplay",
   "main": "index.ts",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",

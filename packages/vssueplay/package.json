@@ -1,10 +1,10 @@
 {
-  "name": "@vssueplay/comps",
+  "name": "vssueplay",
   "private": false,
   "version": "0.0.0",
   "description": "A vue3-powered issue-based comment component",
   "type": "module",
-  "module": "./dist/comps.js",
+  "module": "./dist/vssueplay.js",
   "types": "./dist/main.d.ts",
   "files": [
     "dist"

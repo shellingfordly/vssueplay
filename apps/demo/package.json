@@ -1,19 +1,23 @@
 {
-  "name": "@vssueplay/demos",
+  "name": "@vssueplay/demo",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "description": "This is demo of vssueplay",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
+  "keywords": [],
+  "author": "shellingfordly <shellingfordly@qq.com>",
+  "license": "MIT",
   "dependencies": {
     "vue": "^3.4.21"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
-    "@vssueplay/comps": "workspace:^",
+    "vssueplay": "workspace:^",
     "less": "^4.2.0",
     "vite": "^5.2.0",
     "vue-tsc": "^2.0.6"
