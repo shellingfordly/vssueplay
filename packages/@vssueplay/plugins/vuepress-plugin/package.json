@@ -1,10 +1,7 @@
 {
   "name": "@vssueplay/vuepress-plugin-vssueplay",
-  "version": "0.0.2",
+  "version": "0.0.7",
   "description": "This is vuepress plugin of vssueplay",
-  "main": "./src/index.ts",
-  "module": "lib/index.js",
-  "types": "lib/index.d.ts",
   "homepage": "https://github.com/shellingfordly/vssueplay#readme",
   "bugs": {
     "url": "https://github.com/shellingfordly/vssueplay/issues"
@@ -14,26 +11,42 @@
     "url": "git+https://github.com/shellingfordly/vssueplay.git"
   },
   "author": "shellingfordly <shellingfordly@qq.com>",
+  "type": "module",
+  "exports": {
+    ".": "./lib/node/index.js",
+    "./client": "./lib/client/index.js",
+    "./package.json": "./package.json"
+  },
+  "main": "./lib/node/index.js",
+  "types": "./lib/node/index.d.ts",
   "files": [
     "lib"
   ],
   "scripts": {
-    "build": "rimraf lib && tsc"
+    "build": "pnpm clean && tsc -b tsconfig.json",
+    "clean": "rimraf --glob ./lib ./*.tsbuildinfo"
   },
   "keywords": [
-    "vuepress-plugin"
+    "vuepress-plugin",
+    "vuepress",
+    "plugin",
+    "comment",
+    "issues",
+    "vssueplay"
   ],
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
-  "type": "module",
   "directories": {
     "lib": "lib"
   },
   "devDependencies": {
-    "@vssueplay/utils": "workspace:*",
-    "vssueplay": "workspace:*",
+    "@vssueplay/utils": "^0.0.2",
+    "vssueplay": "^0.0.5",
     "vuepress": "2.0.0-rc.9"
+  },
+  "dependencies": {
+    "vue": "^3.4.24"
   }
 }

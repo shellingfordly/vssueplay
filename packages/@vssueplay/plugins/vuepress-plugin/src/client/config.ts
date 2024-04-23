@@ -1,12 +1,13 @@
 import { defineClientConfig } from 'vuepress/client';
-import vssueplayPlugin from 'vssueplay';
+import { Vssueplay } from 'vssueplay';
 import "vssueplay/dist/style.css";
+import { h } from 'vue';
 
 declare const VSSUEPLAY_CONFIG: string;
 
 export default defineClientConfig({
   enhance({ app }) {
-    const config = JSON.parse(VSSUEPLAY_CONFIG);
-    app.use(vssueplayPlugin as any, { config })
+    const options = JSON.parse(VSSUEPLAY_CONFIG);
+    app.component("Vssueplay", h(Vssueplay, options))
   },
 })
