@@ -3,7 +3,7 @@ import CommentAction from "./CommentAction.vue";
 import CommentEditor from "./CommentEditor.vue";
 import CommentReaction from "./CommentReaction.vue";
 import { GithubV4CommentInfo } from "@vssueplay/utils";
-import { ref } from "vue";
+import { ref, defineProps } from "vue";
 
 const props = defineProps<{ comment: GithubV4CommentInfo }>();
 const isEditMode = ref(false);

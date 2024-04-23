@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, ref, defineProps } from "vue";
 import { useGithubV4 } from "../hooks/useGithubV4";
 import { GithubV4CommentInfo } from "@vssueplay/utils";
 import { useEventListener } from "@vueuse/core";

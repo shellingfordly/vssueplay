@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { GithubV4CommentInfo } from "@vssueplay/utils";
-import { computed, ref, watch, watchEffect } from "vue";
+import { computed, ref, watch, watchEffect, defineEmits } from "vue";
 import { useGithubV4 } from "../hooks/useGithubV4";
 import { useEventListener } from "@vueuse/core";
 

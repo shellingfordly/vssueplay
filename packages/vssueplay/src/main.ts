@@ -1,23 +1,21 @@
 import Vssueplay from "./Vssueplay.vue";
-import { type App, h } from "vue";
-import "./styles/index.css"
+import { type Plugin, type FunctionPlugin, h } from "vue";
 import { lazyImgDirective } from "./directive";
-import { GithubV4Config } from "@vssueplay/utils";
+import config from '../package.json'
+import "./styles/index.css"
 
-
-const VssueplayPlugin = {
-  get version() {
-    return "0"
-  },
-  install: (app: App, options: { config: GithubV4Config }) => {
-    lazyImgDirective(app);
-    app.component("Vssueplay", h(Vssueplay, { ...options }));
-  },
-  Vssueplay: h(Vssueplay)
+const createVssueplayPlugin: FunctionPlugin = (app, ...options) => {
+  lazyImgDirective(app);
+  app.component("Vssueplay", h(Vssueplay, { ...options }));
 }
 
+const VssueplayPlugin: Plugin = {
+  install: createVssueplayPlugin,
+}
 
-export { Vssueplay }
+const version = config.version;
+
+export { version, Vssueplay, createVssueplayPlugin }
 
 export default VssueplayPlugin
 
