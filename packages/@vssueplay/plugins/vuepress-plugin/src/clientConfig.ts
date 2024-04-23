@@ -1,7 +1,12 @@
 import { defineClientConfig } from 'vuepress/client';
-import { Vssueplay } from 'vssueplay_test';
+import vssueplayPlugin from 'vssueplay';
 import "vssueplay/dist/style.css";
 
+declare const VSSUEPLAY_CONFIG: string;
+
 export default defineClientConfig({
-  rootComponents: [Vssueplay],
+  enhance({ app }) {
+    const config = JSON.parse(VSSUEPLAY_CONFIG);
+    app.use(vssueplayPlugin as any, { config })
+  },
 })

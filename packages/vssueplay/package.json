@@ -1,7 +1,7 @@
 {
   "name": "vssueplay",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "A vue3-powered issue-based comment component",
   "type": "module",
   "module": "./dist/vssueplay.js",
@@ -12,14 +12,14 @@
   "author": "shellingfordly <shellingfordly@qq.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "vite build --watch",
+    "dev": "rm -rf dist && vite build --watch",
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@vssueplay/utils": "^0.0.2",
     "@vueuse/core": "^10.9.0",
-    "vue": "^3.4.22"
+    "vue": "^3.4.24"
   },
   "devDependencies": {
     "@iconify-json/line-md": "^1.1.37",

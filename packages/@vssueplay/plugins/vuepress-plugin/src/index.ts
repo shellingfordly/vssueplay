@@ -1,15 +1,14 @@
-// import { path } from 'vuepress/utils';
-
+import type { GithubV4Config } from "@vssueplay/utils";
 import { path } from "vuepress/utils";
 
-export default function createVssueplayPlugin(options: any) {
+export default function vssueplayPlugin(options: GithubV4Config) {
   return {
     name: 'vuepress-plugin-vssueplay',
     define: {
-      VSSUEPLAY_OPTIONS: JSON.stringify(options),
+      VSSUEPLAY_CONFIG: JSON.stringify(options),
     },
     alias: {
-      '@vssueplay/utils': path.resolve(__dirname, '@vssueplay/utils'),
+      'vssueplay': require.resolve('vssueplay'),
     },
     clientConfigFile: path.resolve(__dirname, './clientConfig.js'),
   }
