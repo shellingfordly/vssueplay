@@ -5,7 +5,7 @@ import type { GithubV4CommentInfo, GithubV4CommentReactionType, GithubV4UserInfo
 const storage = new WebStorage({
   storage: localStorage,
   isEncrypt: false,
-  prefixKey: "VITE_"
+  prefixKey: "VSSUEPLAY_"
 });
 
 

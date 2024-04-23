@@ -17,9 +17,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vssueplay/utils": "workspace:^",
+    "@vssueplay/utils": "^0.0.2",
     "@vueuse/core": "^10.9.0",
-    "vue": "^3.4.21"
+    "vue": "^3.4.22"
   },
   "devDependencies": {
     "@iconify-json/line-md": "^1.1.37",
