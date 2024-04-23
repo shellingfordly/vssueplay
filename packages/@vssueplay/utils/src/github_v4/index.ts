@@ -1,6 +1,5 @@
-import { formatUrl } from "../utils";
+import { formatUrl } from "../common";
 import { GithubApiQuery } from "./query";
-import axios, { type AxiosInstance } from "axios";
 import { GithubV4CommentReactionType, GithubV4PageInfo, GithubV4Response, GithubV4UserInfo } from "./type";
 
 export interface GithubV4Config {
@@ -20,7 +19,6 @@ export default class GithubV4 {
   private clientId = "";
   private clientSecret = "";
   private accessToken = "";
-  private fetch: AxiosInstance;
 
   private api = {
     auth: "https://github.com/login/oauth/authorize",
@@ -31,8 +29,6 @@ export default class GithubV4 {
 
   constructor(config?: GithubV4Config) {
     this.setConfig(config);
-
-    this.fetch = this.createFetch();
   }
 
   get isAuthed() {
@@ -47,44 +43,37 @@ export default class GithubV4 {
     return this.fetch
   }
 
-  private createFetch() {
-    const instance = axios.create({
-      headers: {
-        Accept: 'application/vnd.github.v3+json',
-      },
-    });
+  private fetch(url: string, config?: RequestInit) {
+    const token = this.accessToken;
 
-    // set Authorization
-    instance.interceptors.request.use((config) => {
-      if (this.accessToken) {
-        config.headers.Authorization = "token " + this.accessToken;
-      }
-      return config
-    }, undefined);
+    function _fetch<T = any>(_url: string, _config?: RequestInit): Promise<T> {
+      return new Promise((resolve, reject) => {
+        fetch(_url, {
+          headers: {
+            Accept: 'application/vnd.github.v3+json',
+            Authorization: "token " + token
+          },
+          ..._config,
+        }).then((fetchResponse => {
+          resolve(fetchResponse as T)
+        })).catch(fetchError => {
+          reject(fetchError)
+        });
+      })
+    }
 
-    // handle error
-    instance.interceptors.response.use(response => {
-      if (response.data && response.data.error) {
-        return Promise.reject(new Error(response.data.error_description));
-      }
-      return response.data;
-    }, error => {
-      // 403 rate limit exceeded in OPTIONS request will cause a Network Error
-      // here we always treat Network Error as 403 rate limit exceeded
-      // @see https://github.com/axios/axios/issues/838
-      /* istanbul ignore next */
-      if (
-        typeof error.response === 'undefined' &&
-        error.message === 'Network Error'
-      ) {
-        error.response = {
-          status: 403,
-        };
-      }
-      return Promise.reject(error);
+    const post = <T = any>(body: any) => _fetch<T>(url, {
+      ...config,
+      method: "POST",
+      body: JSON.stringify(body)
     })
-
-    return instance;
+    const get = <T = any>(body: any) => _fetch<T>(formatUrl(url, body), {
+      ...config,
+      method: "GET"
+    })
+    return {
+      post, get
+    }
   }
 
   setConfig(config: Partial<GithubV4Config> = {}) {
@@ -132,18 +121,16 @@ export default class GithubV4 {
     try {
       const url = this.api.proxy + this.api.token;
 
-      const result: any = await this.fetch.post(
-        url,
+      const result: any = await this.fetch(url, {
+        headers: {
+          Accept: "application/json",
+        },
+      }).post(
         {
           client_id: this.clientId,
           client_secret: this.clientSecret,
           code,
           redirect_uri: window.location.href,
-        },
-        {
-          headers: {
-            Accept: "application/json",
-          },
         }
       );
 
@@ -162,7 +149,7 @@ export default class GithubV4 {
    * @see https://developer.github.com/v4/object/user/
    */
   async getUser() {
-    const { data } = await this.fetch.post(this.api.graphql, {
+    const { data } = await this.fetch(this.api.graphql).post({
       query: this.apiQuery.getUserQuery(),
     });
 
@@ -172,7 +159,7 @@ export default class GithubV4 {
   async getIssue(issueId: number) {
     const owner = this.author;
     const repo = this.repo;
-    const { data } = await this.fetch.post(this.api.graphql, {
+    const { data } = await this.fetch(this.api.graphql).post({
       query: this.apiQuery.getIssueQuery({
         owner,
         repo,
@@ -189,7 +176,7 @@ export default class GithubV4 {
    * @see https://developer.github.com/v4/object/issuecommentconnection/
    */
   async getComments(pageInfo: Partial<GithubV4PageInfo>) {
-    const { data } = await this.fetch.post(this.api.graphql, {
+    const { data } = await this.fetch(this.api.graphql).post({
       variables: {
         owner: this.author,
         repo: this.repo,
@@ -211,7 +198,7 @@ export default class GithubV4 {
   async createComment(content: string, id: string) {
     const issueNodeId = this.issueNodeId || id;
 
-    const result: any = this.fetch.post(this.api.graphql, {
+    const result: any = this.fetch(this.api.graphql).post({
       variables: {
         issueNodeId,
         content,
@@ -243,7 +230,7 @@ export default class GithubV4 {
    * @see https://developer.github.com/v4/input_object/updateissuecommentinput/
    */
   async editorComment(commentId: string, content: string) {
-    const result: any = await this.fetch.post(this.api.graphql, {
+    const result: any = await this.fetch(this.api.graphql).post({
       variables: {
         commentId,
         content,
@@ -273,7 +260,7 @@ export default class GithubV4 {
    * @see https://developer.github.com/v4/mutation/deleteissuecomment/
    */
   async deleteComment(commentId: string) {
-    const result: any = await this.fetch.post(this.api.graphql, {
+    const result: any = await this.fetch(this.api.graphql).post({
       variables: {
         commentId,
       },
@@ -300,7 +287,7 @@ export default class GithubV4 {
    * reaction: ❤️ 👍 👎
    */
   async reactionComment(commentId: string, content: GithubV4CommentReactionType) {
-    return this.fetch.post(this.api.graphql, {
+    return this.fetch(this.api.graphql).post({
       variables: {
         commentId,
         content,
@@ -310,7 +297,7 @@ export default class GithubV4 {
   }
 
   async getCommentReactions(issueId: string) {
-    this.fetch.post(this.api.graphql, {
+    return this.fetch(this.api.graphql).post({
       variables: {
         owner: this.author,
         repo: this.repo,

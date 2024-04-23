@@ -1,6 +1,6 @@
 {
   "name": "@vssueplay/utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "This is utils of vssueplay",
   "main": "./src/index.ts",
   "module": "lib/index.js",
@@ -24,16 +24,16 @@
   "license": "MIT",
   "devDependencies": {
     "@types/crypto-js": "^4.2.2",
-    "axios-mock-adapter": "^1.22.0",
-    "crypto-js": "^4.2.0",
-    "axios": "^1.6.8",
-    "jsdom": "^24.0.0",
-    "qs": "^6.12.1"
+    "jsdom": "^24.0.0"
   },
   "publishConfig": {
     "access": "public"
   },
   "directories": {
     "lib": "lib"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "qs": "^6.12.1"
   }
 }

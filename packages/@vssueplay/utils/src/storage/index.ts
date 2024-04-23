@@ -62,7 +62,7 @@ export class WebStorage {
 export function createStorage() {
   const storage = new WebStorage({
     storage: localStorage,
-    prefixKey: "VITE_",
+    prefixKey: "VSSUEPLAY_",
     isEncrypt: true,
   });
   return storage;
