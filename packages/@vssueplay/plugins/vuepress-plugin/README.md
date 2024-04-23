@@ -10,16 +10,22 @@ pnpm i @vssueplay/vuepress-plugin-vssueplay
 
 ## Config
 
-set `.vuepress/config.ts`
+set config in `.vuepress/config.ts`
 
 ```ts
+import { vssueplayPlugin } from "@vssueplay/vuepress-plugin-vssueplay";
+
 export default defineUserConfig({
   title: "VuePress",
-  description: "My first VuePress Site",
   plugins: [
-    {
-      name: "@vssueplay/vuepress-plugin-vssueplay",
-    },
+    vssueplayPlugin({
+      config: {
+        clientId: "",
+        clientSecret: "",
+        repo: "",
+        author: "",
+      },
+    }),
   ],
 });
 ```
@@ -27,5 +33,7 @@ export default defineUserConfig({
 ## Used
 
 ```md
+# Vssueplay
+
 <Vssueplay />
 ```

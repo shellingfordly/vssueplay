@@ -12,7 +12,98 @@ The vssueplay is currently under development, you can check out [vue-comment](ht
 
 ## TODO LIST
 
-TODO
+Currently only transplanted github_v4 version.
+
+- [x] github_v4
+
+## Used
+
+<details>
+<summary>
+As vuepress plugin:
+</summary>
+
+1. install `@vssueplay/vuepress-plugin-vssueplay`
+
+```bash
+pnpm i @vssueplay/vuepress-plugin-vssueplay
+```
+
+2. set config in `.vuepress/config.ts`
+
+```ts
+import { vssueplayPlugin } from "@vssueplay/vuepress-plugin-vssueplay";
+
+export default defineUserConfig({
+  title: "VuePress",
+  plugins: [
+    vssueplayPlugin({
+      config: {
+        clientId: "",
+        clientSecret: "",
+        repo: "",
+        author: "",
+      },
+    }),
+  ],
+});
+```
+
+3. used `<Vssueplay />` in markdown
+
+```md
+# Vssueplay
+
+<Vssueplay />
+```
+
+</details>
+
+<details>
+<summary>
+As vue component:
+</summary>
+
+1. install
+
+```bash
+pnpm i vssueplay
+```
+
+1. add component to main.ts
+
+```ts
+import { createApp } from "vue";
+import App from "./App.vue";
+
+import { Vssueplay } from "vssueplay";
+import "vssueplay/dist/style.css";
+
+const app = createApp(App);
+
+app.component("Vssueplay", Vssueplay);
+
+app.mount("#app");
+```
+
+3. used `<Vssueplay />` in vue
+
+```vue
+<script setup lang="ts">
+const config = {
+  clientId: "",
+  clientSecret: "",
+  author: "",
+  repo: "",
+};
+</script>
+
+<template>
+  <Vssueplay :config="config" />
+</template>
+```
+
+</details>
 
 ## Documentation
 
