@@ -11,7 +11,7 @@
     "downlevelIteration": true,
     "strict": true,
     "noImplicitAny": false,
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Bundler",
     "moduleDetection": "force",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
