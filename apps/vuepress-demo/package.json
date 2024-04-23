@@ -1,0 +1,21 @@
+{
+  "name": "vuepress-plugin-demo",
+  "version": "0.0.1",
+  "description": "A VuePress project",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "docs:build": "vuepress build docs",
+    "docs:clean-dev": "vuepress dev docs --clean-cache",
+    "docs:dev": "vuepress dev docs",
+    "docs:update-package": "pnpm dlx vp-update"
+  },
+  "devDependencies": {
+    "@vssueplay/vuepress-plugin-vssueplay": "^0.0.7",
+    "@vuepress/bundler-vite": "^2.0.0-rc.7",
+    "@vuepress/plugin-shiki": "2.0.0-rc.25",
+    "@vuepress/theme-default": "^2.0.0-rc.11",
+    "vue": "^3.4.24",
+    "vuepress": "^2.0.0-rc.7"
+  }
+}
